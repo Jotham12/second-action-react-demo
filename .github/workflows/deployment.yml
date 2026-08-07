@@ -1,4 +1,4 @@
-name: Test Project
+name: Deploy Project
 
 on:
   push:
@@ -30,3 +30,24 @@ jobs:
 
       - name: Run tests
         run: npm test
+  -name: Deploy  
+   runs-on: ubuntu-latest
+    needs: test
+      steps:
+        - name: Get code
+          uses: actions/checkout@v7
+  
+        - name: Install Node.js
+          uses: actions/setup-node@v6
+          with:
+            node-version: 24
+            cache: npm
+            cache-dependency-path: "02 Starting Project/package-lock.json"
+  
+        - name: Install dependencies
+          run: npm ci
+  
+        - name: Deploy to Production
+          run: echo "Deploying to production..."
+
+
